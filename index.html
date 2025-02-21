@@ -35,17 +35,18 @@
     <h1>Mine Game</h1>
     <div id="grid"></div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+       document.addEventListener("DOMContentLoaded", function () {
     let grid = document.getElementById("grid");
+    let BACKEND_URL = "https://minegame-backend.onrender.com"; // Replace with your real backend URL
 
-    for (let i = 1; i <= 25; i++) { // 5x5 grid
+    for (let i = 1; i <= 25; i++) {
         let cell = document.createElement("div");
         cell.className = "grid-cell";
         cell.setAttribute("data-id", i);
         cell.innerText = i;
         cell.addEventListener("click", function () {
             let cellId = this.getAttribute("data-id");
-           fetch("https://your-backend.onrender.com/api/click/" + cellId)
+            fetch(`${BACKEND_URL}/api/click/${cellId}/`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.result === "bomb") {
@@ -55,7 +56,8 @@
                         this.classList.add("star");
                         this.innerHTML = "⭐";
                     }
-                });
+                })
+                .catch(error => console.error("Error:", error));
         });
         grid.appendChild(cell);
     }
