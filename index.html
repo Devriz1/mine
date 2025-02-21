@@ -2,11 +2,65 @@
 <html lang="en">
 <head>
     <title>Mine Game</title>
-    <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
+    <style>body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+#grid {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    gap: 10px;
+    justify-content: center;
+}
+.grid-cell {
+    width: 50px;
+    height: 50px;
+    background-color: lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+}
+.bomb {
+    background-color: red;
+}
+.star {
+    background-color: yellow;
+}
+</style>
     <h1>Mine Game</h1>
     <div id="grid"></div>
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    let grid = document.getElementById("grid");
+
+    for (let i = 1; i <= 25; i++) { // 5x5 grid
+        let cell = document.createElement("div");
+        cell.className = "grid-cell";
+        cell.setAttribute("data-id", i);
+        cell.innerText = i;
+        cell.addEventListener("click", function () {
+            let cellId = this.getAttribute("data-id");
+            fetch(`https://your-backend.onrender.com/api/click/${cellId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === "bomb") {
+                        this.classList.add("bomb");
+                        this.innerHTML = "💣";
+                    } else if (data.result === "star") {
+                        this.classList.add("star");
+                        this.innerHTML = "⭐";
+                    }
+                });
+        });
+        grid.appendChild(cell);
+    }
+});
+
+    </script>
 </body>
 </html>
