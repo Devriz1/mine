@@ -2,43 +2,11 @@
 <html lang="en">
 <head>
     <title>Mine Game</title>
-    <style>
-        .grid { display: grid; grid-template-columns: repeat(5, 50px); gap: 5px; }
-        .cell { width: 50px; height: 50px; background: lightgray; text-align: center; line-height: 50px; font-size: 20px; cursor: pointer; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Mine Game</h1>
-    <div class="grid" id="gameGrid"></div>
-
-    <script>
-        var socket = new WebSocket("ws://localhost:8000/ws/game/");
-        var grid = document.getElementById("gameGrid");
-
-        // Create a 5x5 grid
-        for (let i = 0; i < 25; i++) {
-            let cell = document.createElement("div");
-            cell.className = "cell";
-            cell.dataset.index = i;
-            cell.onclick = function () { cell.style.background = "white"; };
-            grid.appendChild(cell);
-        }
-
-        socket.onmessage = function(event) {
-            let data = JSON.parse(event.data);
-            let message = data.message;
-
-            let cells = document.querySelectorAll(".cell");
-            let randomIndex = Math.floor(Math.random() * cells.length);
-
-            if (message === "bomb") {
-                cells[randomIndex].style.background = "red";  // Bomb
-                cells[randomIndex].innerText = "💣";
-            } else if (message === "star") {
-                cells[randomIndex].style.background = "yellow";  // Star
-                cells[randomIndex].innerText = "⭐";
-            }
-        };
-    </script>
+    <div id="grid"></div>
+    <script src="script.js"></script>
 </body>
 </html>
