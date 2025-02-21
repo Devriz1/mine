@@ -45,7 +45,7 @@
         cell.innerText = i;
         cell.addEventListener("click", function () {
             let cellId = this.getAttribute("data-id");
-            fetch(`https://your-backend.onrender.com/api/click/${cellId}/`)
+           fetch("https://your-backend.onrender.com/api/click/" + cellId)
                 .then(response => response.json())
                 .then(data => {
                     if (data.result === "bomb") {
